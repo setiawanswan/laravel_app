@@ -21,6 +21,10 @@ Route::get('/contact', function () {
     return 'Contact';
 })->name('home.contact');
 
-Route::get('/post/{id}', function ($id) {
-    return 'Blog post' . $id;
+Route::get('/posts/{id}', function ($id) {
+    return 'Blog post ' . $id;
+});
+
+Route::get('/recent_posts/{days_ago?}', function ($daysAgo = 20) {
+    return 'Posts from ' . $daysAgo . ' days ago';
 });
