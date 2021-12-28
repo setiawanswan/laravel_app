@@ -3,7 +3,13 @@
 @section('title', 'Blog post !')
 
 @section('content')
-    @foreach($posts as $key => $post)
+    @forelse($posts as $key => $post)
+    @if($loop->even)
         <div> {{$key}}.{{ $post['title'] }} </div>
-    @endforeach
+    @else
+        <div style="background-color:silver"> {{$key}}.{{ $post['title'] }} </div>
+    @endif
+    @empty
+    No found Post !
+    @endforelse
 @endsection
