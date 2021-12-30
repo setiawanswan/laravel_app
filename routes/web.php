@@ -41,14 +41,14 @@ $posts = [
     ],
 
     3 => [
-        'title' => 'Intro to PHP',
-        'content' => 'This is a short intro to PHP',
+        'title' => 'Intro to Golang',
+        'content' => 'This is a short intro to Golang',
         'is_new' => false
     ],
 
     4 => [
-        'title' => 'Intro to PHP',
-        'content' => 'This is a short intro to PHP',
+        'title' => 'Intro to Vue',
+        'content' => 'This is a short intro to Vue',
         'is_new' => false
     ]
 ];
@@ -67,3 +67,25 @@ Route::get('/posts/{id}', function ($id) use($posts) {
 Route::get('/recent_posts/{days_ago?}', function ($daysAgo = 20) {
     return 'Posts from ' . $daysAgo . ' days ago';
 })->name('posts.recent.index');
+
+Route::get('/fun/response', function() use($posts) {
+    return response($posts, 201)
+    ->header('Content-Type', 'application/json')
+    ->cookie('MY_COOKIE', 'Setiawan', 3600);
+});
+
+Route::get('/fun/redirect', function() {
+    return redirect('/contact');
+});
+
+Route::get('/fun/back', function() {
+    return back();
+});
+
+Route::get('/fun/named-route', function() {
+    return redirect()->route('posts.show', ['id' => 1]);
+});
+
+Route::get('/fun/away', function() {
+    return redirect()->away('http://google.com');
+});
