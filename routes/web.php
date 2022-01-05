@@ -1,6 +1,10 @@
 <?php
 
+use App\Http\Controllers\AboutController;
+use App\Http\Controllers\HomeController;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -13,13 +17,10 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('home.index', []);
-})->name('home.index');
+Route::get('/', [HomeController::class, 'home'])->name('home.index');
+Route::get('/contact', [HomeController::class, 'contact'])->name('home.contact');
 
-Route::get('/contact', function () {
-    return view('home.contact');
-})->name('home.contact');
+Route::get('/single', AboutController::class);
 
 // Simple View Rendering
 
@@ -54,6 +55,9 @@ $posts = [
 ];
 
 Route::get('/posts', function () use($posts) {
+    // dd(request()->all());
+    dd((int)request()->input('page', 1));
+
     return view('posts.index', ['posts' => $posts]);
 });
 
@@ -66,7 +70,7 @@ Route::get('/posts/{id}', function ($id) use($posts) {
 
 Route::get('/recent_posts/{days_ago?}', function ($daysAgo = 20) {
     return 'Posts from ' . $daysAgo . ' days ago';
-})->name('posts.recent.index');
+})->name('posts.recent.index')->middleware('auth');
 
 Route::prefix('/fun')->name('fun.')->group(function() use($posts) {
     Route::get('/fun/response', function() use($posts) {
