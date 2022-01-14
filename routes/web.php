@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AboutController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\PostsController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -54,19 +55,21 @@ $posts = [
     ]
 ];
 
-Route::get('/posts', function () use($posts) {
-    // dd(request()->all());
-    dd((int)request()->input('page', 1));
+Route::resource('posts', PostsController::class)->only(['index', 'show']);
 
-    return view('posts.index', ['posts' => $posts]);
-});
+// Route::get('/posts', function () use($posts) {
+//     // dd(request()->all());
+//     dd((int)request()->input('page', 1));
 
-Route::get('/posts/{id}', function ($id) use($posts) {
-    abort_if(!isset($posts[$id]), 404);
+//     return view('posts.index', ['posts' => $posts]);
+// });
 
-    return view('posts.show', ['post' => $posts[$id]]);
-    // return 'Blog post ' . $id;
-})->name('posts.show');
+// Route::get('/posts/{id}', function ($id) use($posts) {
+//     abort_if(!isset($posts[$id]), 404);
+
+//     return view('posts.show', ['post' => $posts[$id]]);
+//     // return 'Blog post ' . $id;
+// })->name('posts.show');
 
 Route::get('/recent_posts/{days_ago?}', function ($daysAgo = 20) {
     return 'Posts from ' . $daysAgo . ' days ago';
